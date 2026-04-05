@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>3D Maze Horror - Textured Floor</title>
+    <title>3D Maze Horror - Backrooms Wallpaper</title>
     <style>
         body { margin: 0; overflow: hidden; background: #000; font-family: 'Courier New', Courier, monospace; }
         canvas { display: block; }
@@ -78,13 +78,12 @@
         }
 
         function createMaze() {
-            // FLOOR TEXTURE LOADING
             const loader = new THREE.TextureLoader();
-            // Replace the URL below with your hosted image link
+
+            // 1. FLOOR TEXTURE (Using previous carpet settings)
             const floorTex = loader.load('carp.png'); 
             floorTex.wrapS = floorTex.wrapT = THREE.RepeatWrapping;
-            floorTex.repeat.set(50, 50); // Tiles the texture so it doesn't look stretched
-
+            floorTex.repeat.set(100, 100);
             const floor = new THREE.Mesh(
                 new THREE.PlaneGeometry(200, 200), 
                 new THREE.MeshStandardMaterial({ map: floorTex })
@@ -92,8 +91,14 @@
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
 
+            // 2. WALL TEXTURE (Your provided arrow wallpaper)
+            const wallTex = loader.load('yellowwall.png'); 
+            wallTex.wrapS = wallTex.wrapT = THREE.RepeatWrapping;
+            // Walls are 4 units high and 2 units wide. Repeat 1x horizontally, 2x vertically.
+            wallTex.repeat.set(1, 2); 
+
             const wallGeo = new THREE.BoxGeometry(wallSize, 4, wallSize);
-            const wallMat = new THREE.MeshStandardMaterial({ color: 0x888888 }); 
+            const wallMat = new THREE.MeshStandardMaterial({ map: wallTex }); 
 
             for(let x = -20; x < 20; x++) {
                 for(let z = -20; z < 20; z++) {
